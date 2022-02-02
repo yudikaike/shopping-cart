@@ -42,10 +42,10 @@ function createCartItemElement({ sku, name, salePrice }) {
 
 const addItemsToCart = () => {
   const cartItemList = document.querySelector('.cart ol');
-  const items = document.querySelectorAll('.item');
+  const itemButtons = document.querySelectorAll('.item button');
 
-  items.forEach((item) => item.addEventListener('click', (event) => {
-    const id = event.currentTarget.firstChild.innerText;
+  itemButtons.forEach((itemButton) => itemButton.addEventListener('click', (event) => {
+    const id = event.target.parentElement.firstChild.innerText;
     fetchItem(id)
       .then((product) => {
         const { id: sku, title: name, price: salePrice } = product;
