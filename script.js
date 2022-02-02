@@ -40,16 +40,33 @@ function createCartItemElement({ sku, name, salePrice }) {
   return li;
 }
 
+const addItemsToCart = () => {
+  const cartItemList = document.querySelector('.cart ol');
+  const items = document.querySelectorAll('.item');
+
+  items.forEach((item) => item.addEventListener('click', (event) => {
+    const id = event.currentTarget.firstChild.innerText;
+    fetchItem(id)
+      .then((product) => {
+        const { id: sku, title: name, price: salePrice } = product;
+        cartItemList.appendChild(createCartItemElement({ sku, name, salePrice }));
+      });
+  }));
+};
+
 const appendItems = () => {
   const itemSection = document.querySelector('.items');
 
-  fetchProducts().then((products) => {
-    products.forEach((product) => {
-      console.log(product);
-      const { id, title: name, thumbnail: image } = product;
-      itemSection.appendChild(createProductItemElement({ id, name, image }));
-    });
-  });
+  fetchProducts()
+    .then((products) => {
+      products.forEach((product) => {
+        const { id: sku, title: name, thumbnail: image } = product;
+        itemSection.appendChild(createProductItemElement({ sku, name, image }));
+      });
+    })
+    .then(() => addItemsToCart());
 };
 
-window.onload = () => appendItems();
+window.onload = () => {
+  appendItems();
+};
