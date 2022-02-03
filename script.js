@@ -1,10 +1,21 @@
-const updateCart = () => {
-  const cartItems = document.querySelectorAll('.cart ol li');
-  const array = [];
-  cartItems.forEach((item) => {
-    array.push(item.innerText);
+const totalPrice = () => {
+  const cartItems = document.querySelector('.cart ol');
+  const priceContainer = document.querySelector('.total-price');
+  let total = 0;
+  cartItems.childNodes.forEach((item) => {
+  const price = item.innerText.split('|')[2].split(':')[1].trim().split('');
+  price.splice(0, 1);
+  const formattedPrice = price.join('');
+  const priceNumber = parseFloat(formattedPrice);
+  total += priceNumber;
   });
-  saveCartItems(array);
+  priceContainer.innerText = `${total}`;
+};
+
+const updateCart = () => {
+  const cartItems = document.querySelector('.cart ol');
+  saveCartItems(cartItems);
+  totalPrice();
 };
 
 function createProductImageElement(imageSource) {
@@ -95,4 +106,5 @@ const appendItems = () => {
 window.onload = () => {
   appendItems();
   loadItems();
+  totalPrice();
 };
