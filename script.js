@@ -64,8 +64,9 @@ function cartItemClickListener(event) {
 
 const loadItems = async () => {
   const cartItems = await getSavedCartItems();
-  if (cartItems.length !== 0) {
-    cartItems.forEach((savedItem) => {
+  const parsedCartItems = JSON.parse(cartItems);
+  if (parsedCartItems.length !== 0) {
+    parsedCartItems.forEach((savedItem) => {
       const cartItemList = document.querySelector('.cart ol');
       const li = document.createElement('li');
       li.className = 'cart__item';
@@ -90,7 +91,7 @@ const addItemsToCart = () => {
   const itemButtons = document.querySelectorAll('.item button');
 
   itemButtons.forEach((itemButton) => itemButton.addEventListener('click', (event) => {
-    const id = event.target.parentElement.firstChild.innerText;
+    const id = getSkuFromProductItem(event.target.parentElement);
     fetchItem(id)
       .then((product) => {
         const { id: sku, title: name, price: salePrice } = product;
