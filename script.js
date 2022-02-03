@@ -18,6 +18,15 @@ const updateCart = () => {
   totalPrice();
 };
 
+const emptyCart = () => {
+  const cartItems = document.querySelector('.cart ol');
+  const emptyCartButton = document.querySelector('.empty-cart');
+  emptyCartButton.addEventListener('click', () => {
+    cartItems.innerHTML = '';
+    updateCart();
+  });
+};
+
 function createProductImageElement(imageSource) {
   const img = document.createElement('img');
   img.className = 'item__image';
@@ -64,6 +73,7 @@ const loadItems = async () => {
       li.addEventListener('click', cartItemClickListener);
       cartItemList.appendChild(li);
     });
+    totalPrice();
   }
 };
 
@@ -107,4 +117,5 @@ window.onload = () => {
   appendItems();
   loadItems();
   totalPrice();
+  emptyCart();
 };
