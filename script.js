@@ -100,9 +100,16 @@ const addItemsToCart = () => {
   }));
 };
 
+const loading = () => {
+  const itemSection = document.querySelector('.items');
+  const section = createCustomElement('section', 'loading', 'carregando...');
+  itemSection.appendChild(section);
+};
+
 const appendItems = () => {
   const itemSection = document.querySelector('.items');
 
+  loading();
   fetchProducts()
     .then((products) => {
       products.forEach((product) => {
@@ -110,7 +117,10 @@ const appendItems = () => {
         itemSection.appendChild(createProductItemElement({ sku, name, image }));
       });
     })
-    .then(() => addItemsToCart());
+    .then(() => addItemsToCart())
+    .then(() => {
+      document.querySelector('.loading').remove();
+    });
 };
 
 window.onload = () => {
