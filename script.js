@@ -110,9 +110,9 @@ const appendItems = () => {
   const itemSection = document.querySelector('.items');
 
   loading();
-  fetchProducts()
+  fetchProducts('computador')
     .then((products) => {
-      products.forEach((product) => {
+      products.results.forEach((product) => {
         const { id: sku, title: name, thumbnail: image } = product;
         itemSection.appendChild(createProductItemElement({ sku, name, image }));
       });
